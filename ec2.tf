@@ -12,14 +12,14 @@ resource "aws_instance" "my-ec2" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file(local_file.private-key.filename)
+    private_key = "ec2-key.pem"
     host        = self.public_ip
   }
 
   provisioner "remote-exec" {
     inline = [
       "sudo yum install httpd -y && sudo systemctl start httpd && sudo systemctl enable httpd",
-      "echo '<h1>This website is using Terraform Provisionner >' index.html",
+      "echo '<h1>This website is using Terraform Provisionner </h1>' > index.html",
       "sudo mv index.html /var/www/html/"
     ]
   }
